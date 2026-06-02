@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "data-analysis-tool"
+version = "0.1.0"
+description = "A set of Python helper tools for dataanalysis."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.9"
+authors = [
+  { name = "Mugalan", email = "mugalan@gmail.com" }
+]
+dependencies = [
+  "numpy>=1.21"
+]
+
+# Make Plotly optional (install with: pip install data-analysis-tool[plotting])
+[project.optional-dependencies]
+plotting = ["plotly>=5.0"]
+
+[project.urls]
+Repository = "https://github.com/mugalan/data-analysis-tool"
+
+[tool.setuptools]
+packages = ["data_analysis"]
+
