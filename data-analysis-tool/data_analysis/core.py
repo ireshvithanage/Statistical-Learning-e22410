@@ -130,13 +130,14 @@ class DataInspector:
 
     def handle_missing_values(self, columns=None, strategy='median', fill_value=None):
         """
-        Imputes missing values in specified columns to preserve data rows.
-
+        Fills missing values in selected columns while preserving all rows in the dataset.
+        
         Parameters:
-        - columns: List of strings. If None, applies to all columns with NaNs.
-        - strategy: 'mean', 'median', 'mode', or 'constant'.
-        - fill_value: Used only if strategy is 'constant'.
+        - columns: List of column names to apply imputation on. If None, all columns containing missing values are used.
+        - strategy: Method used for imputation: 'mean', 'median', 'mode', or 'constant'.
+        - fill_value: Value used for replacement when strategy is set to 'constant'.
         """
+
         if self.df is None: return
         target_cols = columns if columns else self.df.columns[self.df.isnull().any()].tolist()
 
@@ -217,16 +218,16 @@ class DataInspector:
 
     def extract_normalized_numeric_data(self, method='minmax'):
         """
-        Extracts numerical columns and scales them using the specified method.
-
+        Selects numerical columns and applies feature scaling based on the chosen method.
+        
         Parameters:
-        - method: str, options are:
-          * 'minmax': Scales features exactly to the [0, 1] range. 
-                      Best for algorithms that assume a bounded range (e.g., Neural Networks).
-          * 'standard': Centers features to a mean of 0 and standard deviation of 1.
-                        Standard choice for PCA, Clustering, and Linear models.
-          * 'robust': Uses the median and Interquartile Range (IQR). 
-                      Best if your data has outliers that you don't want distorting the scaling.
+        - method: str, scaling approach to use:
+          * 'minmax': Rescales values into the [0, 1] range.
+                      Suitable for models sensitive to feature magnitude, such as neural networks.
+          * 'standard': Standardizes features to have mean 0 and standard deviation 1.
+                        Commonly used for PCA, clustering, and linear regression models.
+          * 'robust': Scales data using median and interquartile range (IQR).
+                      Recommended when the dataset contains outliers that may affect standard scaling.
         """
         if self.df is None: return print("Error: No data loaded.")
 
